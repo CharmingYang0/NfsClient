@@ -1,0 +1,7 @@
+__title__ = "NfsClient"
+__description__ = "Pure python NFS client"
+__version__ = "0.1"
+__license__ = "MIT"
+__url__ = "N/A"
+__author__ = "Cooper Yang"
+__author_email__ = "cm_yang@yeah.net"
