@@ -14,8 +14,7 @@ You could form your custom scenarios that consist of basic actions to meet expec
 
 NfsClient is operating system and application independent. The toolkit is implemented using 
 `Python <http://python.org>`_, supports both
-Python 2 and Python 3, and runs also on `Jython <http://jython.org>`_ (JVM),
-`IronPython <http://ironpython.net>`_ (.NET) and `PyPy <http://pypy.org>`_.
+Python 2.7 and Python 3.
 
 NfsClient project is hosted on GitHub_ where you can find source code,
 an issue tracker, and some further documentation.
