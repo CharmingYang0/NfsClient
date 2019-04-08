@@ -20,8 +20,8 @@ Python 2 and Python 3, and runs also on `Jython <http://jython.org>`_ (JVM),
 Robot Framework project is hosted on GitHub_ where you can find source code,
 an issue tracker, and some further documentation.
 
-.. _GitHub: https://github.com/robotframework/robotframework
-.. _PyPI: https://pypi.python.org/pypi/robotframework
+.. _GitHub: https://github.com/CharmingYang0/NfsClient
+.. _PyPI: https://pypi.org/project/nfsclient
 
 .. image:: https://img.shields.io/pypi/v/robotframework.svg?label=version
    :target: https://pypi.python.org/pypi/robotframework
@@ -111,7 +111,7 @@ License
 
 **The MIT License (MIT)**
 
-Copyright (c) 2019 Charming Yang(https://github.com/CharmingYang0)
+Copyright (c) 2019 Cooper Yang(https://github.com/CharmingYang0)
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
