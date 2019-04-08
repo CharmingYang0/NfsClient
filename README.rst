@@ -10,14 +10,14 @@ Introduction
 NfsClient is a generic open source toolkit for Linux NFS file system simulation as client.
 Constructed parameters sent via RPC and then analyse the response in reference to NFS protocol specifications (RFC1813).
 You could form your custom scenarios that consist of basic actions to meet expecations.
-Currently only NFS v3 supported, NFS v4.1 is under development.
+**Currently only NFS v3 supported, NFS v4.1 is under development.**
 
-Robot Framework is operating system and application independent. The toolkit is implemented using 
+NfsClient is operating system and application independent. The toolkit is implemented using 
 `Python <http://python.org>`_, supports both
 Python 2 and Python 3, and runs also on `Jython <http://jython.org>`_ (JVM),
 `IronPython <http://ironpython.net>`_ (.NET) and `PyPy <http://pypy.org>`_.
 
-Robot Framework project is hosted on GitHub_ where you can find source code,
+NfsClient project is hosted on GitHub_ where you can find source code,
 an issue tracker, and some further documentation.
 
 .. _GitHub: https://github.com/CharmingYang0/NfsClient
