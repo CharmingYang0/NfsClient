@@ -7,7 +7,6 @@ NfsClient
 Introduction
 ------------
 
-|Python2| |Python3|
 NfsClient is a generic open source toolkit for Linux NFS file system simulation as client.
 Constructed parameters sent via RPC and then analyse the response in reference to NFS protocol specifications (RFC1813).
 You could form your custom scenarios that consist of basic actions to meet expecations.
@@ -30,7 +29,7 @@ an issue tracker, and some further documentation.
 Installation
 ------------
 
-If you already have Python_ with `pip <http://pip-installer.org>`__ installed,
+If you already have `Python <https://www.python.org>`__ with `pip <http://pip-installer.org>`__ installed,
 you can simply run::
 
     pip install nfsclient

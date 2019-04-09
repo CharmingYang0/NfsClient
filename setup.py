@@ -20,10 +20,10 @@ about = dict()
 with open(os.path.join(here, "NfsClient", "__info__.py"), "r") as fp:
     exec(fp.read(), about)
 
-with open("README.rst", mode="r", encoding="utf-8") as f:
+with open("README.rst", encoding="utf-8") as f:
     readme = f.read()
 
-with open("HISTORY.md", mode="r", encoding="utf-8") as f:
+with open("HISTORY.md", encoding="utf-8") as f:
     history = f.read()
 
 setup(
@@ -31,21 +31,21 @@ setup(
     version=about["__version__"],
     description=about["__description__"],
     long_description=readme,
-    long_description_content_type='text/x-rst',
     author=about["__author__"],
     author_email=about["__author_email__"],
+    license="MIT",
+    platforms='any',
     url=about["__url__"],
     packages=["NfsClient"],
-    package_dir={"NfsClient": "NfsClient"},
-    include_package_data=False,
     python_requires=">=2.7",
     keywords="RPC NFS struct",
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
         'Operating System :: OS Independent',
         'Topic :: System :: Filesystems',
+        'Topic :: Software Development :: Libraries :: Python Modules',
         'Natural Language :: English',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3.6',
