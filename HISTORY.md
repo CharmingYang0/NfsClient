@@ -8,10 +8,10 @@ dev
 
 -   \[Short description of non-trivial change.\]
 
-0.2 (2019-04-09)
+0.4 (2019-04-09)
 ------------------
 
--   Update readme and consts adjust
+-   Update readme and setup settings
 
 0.1 (2019-04-08)
 ------------------
