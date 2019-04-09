@@ -7,33 +7,30 @@ NfsClient
 Introduction
 ------------
 
+|Python2| |Python3|
 NfsClient is a generic open source toolkit for Linux NFS file system simulation as client.
 Constructed parameters sent via RPC and then analyse the response in reference to NFS protocol specifications (RFC1813).
 You could form your custom scenarios that consist of basic actions to meet expecations.
 **Currently only NFS v3 supported, NFS v4.1 is under development.**
 
 NfsClient is operating system and application independent. The toolkit is implemented using 
-`Python <http://python.org>`_, supports both
+`Python <https://www.python.org>`__, supports both
 Python 2.7 and Python 3.
 
 NfsClient project is hosted on GitHub_ where you can find source code,
 an issue tracker, and some further documentation.
 
 .. _GitHub: https://github.com/CharmingYang0/NfsClient
-.. _PyPI: https://pypi.org/project/nfsclient
+.. _PyPI: https://pypi.org/project/NfsClient
 
-.. image:: https://img.shields.io/pypi/v/robotframework.svg?label=version
-   :target: https://pypi.python.org/pypi/robotframework
+.. image:: https://img.shields.io/pypi/v/NfsClient.svg?label=version
+   :target: https://pypi.org/project/NfsClient/
    :alt: Latest version
-
-.. image:: https://img.shields.io/pypi/l/robotframework.svg
-   :target: http://www.apache.org/licenses/LICENSE-2.0.html
-   :alt: License
 
 Installation
 ------------
 
-If you already have Python_ with `pip <http://pip-installer.org>`_ installed,
+If you already have Python_ with `pip <http://pip-installer.org>`__ installed,
 you can simply run::
 
     pip install nfsclient
@@ -47,7 +44,9 @@ from GitHub_. After that you can install the framework with::
 Example
 -------
 
-Below is a simple example which lookup a file and then do several operations on it.::
+Below is a simple example which lookup a file and then do several operations on it.
+
+.. code:: python
 
     from NfsClient import (Portmap, Mount, NFSv3, MNT3_OK, NFS_PROGRAM,
                            NFS_V3, NFS3_OK, DATA_SYNC)
@@ -110,7 +109,7 @@ License
 
 **The MIT License (MIT)**
 
-Copyright (c) 2019 Cooper Yang(https://github.com/CharmingYang0)
+Copyright (c) 2019 `Cooper Yang <https://github.com/CharmingYang0>`__
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
