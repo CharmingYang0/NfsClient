@@ -1,10 +1,3 @@
-import sys
-
-# ---------------
-# COMMON METHODS
-# ---------------
-
-
 # GENERAL
 FALSE = 0
 TRUE = 1
