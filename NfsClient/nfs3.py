@@ -1,5 +1,4 @@
 import logging
-import struct
 from functools import wraps
 from .utils import LONG, str_to_bytes
 from .rpc import RPC
@@ -35,9 +34,6 @@ def fh_check(function):
 
 
 class NFSv3(RPC):
-    pack = struct.pack
-    unpack = struct.unpack
-
     def nfs_request(self, procedure, args, auth):
         return super(NFSv3, self).request(NFS_PROGRAM, NFS_V3, procedure, data=args, auth=auth)
 
