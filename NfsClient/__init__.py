@@ -2,6 +2,7 @@ from __future__ import absolute_import, unicode_literals
 import logging
 from logging import NullHandler
 from .__info__ import (__version__, __author__, __author_email__, __description__)
+from .rpc import RPC
 from .portmap import Portmap
 from .mount import Mount
 from .nfs3 import NFSv3
@@ -13,6 +14,11 @@ __author__ = "{} <{}>".format(__author__, __author_email__)
 __version__ = __version__
 __doc__ = __description__
 
+
+def release_all_rpc():
+    RPC.disconnect_all()
+
+
 __all__ = ("Portmap", "Mount", "NFSv3", "MOUNT_PROGRAM", "MNT3_OK", "MNT3ERR_ACCES", "MNT3ERR_INVAL", "MNT3ERR_IO",
            "MNT3ERR_NAMETOOLONG", "MNT3ERR_NOENT", "MNT3ERR_NOTDIR", "MNT3ERR_NOTSUPP", "MNT3ERR_PERM",
            "MNT3ERR_SERVERFAULT", "MOUNTSTAT3", "NFSSTAT3", "NFS3_OK", "NFS3ERR_ACCES", "NFS3ERR_BAD_COOKIE",
@@ -23,4 +29,4 @@ __all__ = ("Portmap", "Mount", "NFSv3", "MOUNT_PROGRAM", "MNT3_OK", "MNT3ERR_ACC
            "NFS3ERR_ROFS", "NFS3ERR_SERVERFAULT", "NFS3ERR_TOOSMALL", "NFS3ERR_XDEV", "NFS3ERR_STALE",
            "UNSTABLE", "DATA_SYNC", "FILE_SYNC", "DONT_CHANGE", "SET_TO_CLIENT_TIME", "SET_TO_SERVER_TIME",
            "UNCHECKED", "GUARDED", "EXCLUSIVE", "FTYPE3", "NF3REG", "NF3DIR", "NF3BLK", "NF3CHR", "NF3LNK",
-           "NF3FIFO", "NF3SOCK", "NFS_PROGRAM", "NFS_V3", "MOUNT_V3")
+           "NF3FIFO", "NF3SOCK", "NFS_PROGRAM", "NFS_V3", "MOUNT_V3", "release_all_rpc")
