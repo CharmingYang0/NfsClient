@@ -30,9 +30,9 @@ def fh_check(function):
         if len(args) > 1:
             fh = args[1]
         else:
-            for k, v in enumerate(kwargs):
-                if str(k).endswith("_handle"):
-                    fh = v
+            for k in kwargs:
+                if k.endswith("_handle"):
+                    fh = kwargs.get(k)
                     break
         if fh and not isinstance(fh, bytes):
             raise TypeError("file/directory should be bytes")
