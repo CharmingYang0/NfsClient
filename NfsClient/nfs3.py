@@ -26,7 +26,15 @@ def fh_check(function):
     @wraps(function)
     def check_fh(*args, **kwargs):
         logger.debug("Checking if first argument is bytes type as file/directory handler for [%s]" % function.__name__)
-        if not isinstance(args[1], bytes):
+        fh = None
+        if len(args) > 1:
+            fh = args[1]
+        else:
+            for k, v in enumerate(kwargs):
+                if str(k).endswith("_handle"):
+                    fh = v
+                    break
+        if fh and not isinstance(fh, bytes):
             raise TypeError("file/directory should be bytes")
         else:
             return function(*args, **kwargs)
