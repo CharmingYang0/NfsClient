@@ -20,10 +20,10 @@ pyNfsClient project is hosted on GitHub_ where you can find source code,
 an issue tracker, and some further documentation.
 
 .. _GitHub: https://github.com/CharmingYang0/NfsClient
-.. _PyPI: https://pypi.org/project/NfsClient
+.. _PyPI: https://pypi.org/project/pyNfsClient
 
-.. image:: https://img.shields.io/pypi/v/NfsClient.svg?label=version
-   :target: https://pypi.org/project/NfsClient/
+.. image:: https://img.shields.io/pypi/v/pyNfsClient.svg?label=version
+   :target: https://pypi.org/project/pyNfsClient/
    :alt: Latest version
 
 Installation
