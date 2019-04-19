@@ -2,7 +2,7 @@
 
 # Copyright (C) 2019  Cooper Yang <cm_yang@yeah.net>
 #
-# This file is part of NfsClient.
+# This file is part of pyNfsClient.
 #
 # NfsClient is free software; you can redistribute it and/or modify it under the
 # terms of the MIT License.
@@ -17,7 +17,7 @@ from setuptools import setup
 here = os.path.abspath(os.path.dirname(__file__))
 
 about = dict()
-with open(os.path.join(here, "NfsClient", "__info__.py"), "r") as fp:
+with open(os.path.join(here, "pyNfsClient", "__info__.py"), "r") as fp:
     exec(fp.read(), about)
 
 with open("README.rst", encoding="utf-8") as f:
@@ -37,7 +37,7 @@ setup(
     license="MIT",
     platforms='any',
     url=about["__url__"],
-    packages=["NfsClient"],
+    packages=["pyNfsClient"],
     python_requires=">=2.7",
     keywords="RPC NFS struct",
     classifiers=[

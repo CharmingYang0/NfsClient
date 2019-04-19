@@ -1,4 +1,4 @@
-NfsClient
+pyNfsClient
 ===============
 
 .. contents::
@@ -7,16 +7,16 @@ NfsClient
 Introduction
 ------------
 
-NfsClient is a generic open source toolkit for Linux NFS file system simulation as client.
+pyNfsClient is a generic open source toolkit for Linux NFS file system simulation as client.
 Constructed parameters sent via RPC and then analyse the response in reference to NFS protocol specifications (RFC1813).
 You could form your custom scenarios that consist of basic actions to meet expecations.
 **Currently only NFS v3 supported, NFS v4.1 is under development.**
 
-NfsClient is operating system and application independent. The toolkit is implemented using 
+pyNfsClient is operating system and application independent. The toolkit is implemented using 
 `Python <https://www.python.org>`__, supports both
 Python 2.7 and Python 3.
 
-NfsClient project is hosted on GitHub_ where you can find source code,
+pyNfsClient project is hosted on GitHub_ where you can find source code,
 an issue tracker, and some further documentation.
 
 .. _GitHub: https://github.com/CharmingYang0/NfsClient
@@ -32,7 +32,7 @@ Installation
 If you already have `Python <https://www.python.org>`__ with `pip <http://pip-installer.org>`__ installed,
 you can simply run::
 
-    pip install nfsclient
+    pip install pyNfsClient
 
 Alternatively you can get source code by downloading the source
 distribution from PyPI_ and extracting it, or by cloning the project repository
@@ -47,7 +47,7 @@ Below is a simple example which lookup a file and then do several operations on 
 
 .. code:: python
 
-    from NfsClient import (Portmap, Mount, NFSv3, MNT3_OK, NFS_PROGRAM,
+    from pyNfsClient import (Portmap, Mount, NFSv3, MNT3_OK, NFS_PROGRAM,
                            NFS_V3, NFS3_OK, DATA_SYNC)
     
     # variable preparation
