@@ -1,4 +1,4 @@
-from __future__ import absolute_import, unicode_literals
+from __future__ import absolute_import
 import logging
 from logging import NullHandler
 from .__info__ import (__version__, __author__, __author_email__, __description__)
