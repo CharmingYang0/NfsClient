@@ -15,9 +15,14 @@ class Mount(RPC):
     program = MOUNT_PROGRAM
     program_version = MOUNT_V3
 
+    def __init__(self, host, path, port, timeout, auth):
+        super(Mount, self).__init__(host=host, port=port, timeout=timeout)
+        self.path = path
+        self.auth = auth
+
     def null(self, auth=None):
         log.debug("Mount NULL on %s" % self.host)
-        super(Mount, self).request(self.program, self.program_version, 0, auth=auth)
+        super(Mount, self).request(self.program, self.program_version, 0, auth=auth if auth else self.auth)
         return {"status": MNT3_OK, "message": MOUNTSTAT3[MNT3_OK]}
 
     def mnt(self, path, auth=None):
@@ -26,7 +31,8 @@ class Mount(RPC):
         data += b'\x00'*((4-len(path) % 4) % 4)
 
         log.debug("Do mount on %s" % path)
-        data = super(Mount, self).request(self.program, self.program_version, 1, data=data, auth=auth)
+        data = super(Mount, self).request(self.program, self.program_version, 1, data=data,
+                                          auth=auth if auth else self.auth)
 
         unpacker = nfs_pro_v3Unpacker(data)
         return unpacker.unpack_mountres3()
@@ -37,7 +43,7 @@ class Mount(RPC):
         data += b"\x00" * ((4 - len(path) % 4) % 4)
 
         log.debug("Do umount on %s" % path)
-        super(Mount, self).request(self.program, self.program_version, 3, data=data, auth=auth)
+        super(Mount, self).request(self.program, self.program_version, 3, data=data, auth=auth if auth else self.auth)
 
         return {"status": MNT3_OK, "message": MOUNTSTAT3[MNT3_OK]}
 
