@@ -1,5 +1,5 @@
 import struct
-from xdrlib import Packer, Unpacker, raise_conversion_error
+from xdrlib import Packer, Unpacker, ConversionError
 from xdrlib import Error as XDRError
 from . import const
 from . import rtypes as types
@@ -23,9 +23,11 @@ class nfs_pro_v3Packer(Packer):
     pack_bool = Packer.pack_bool
     pack_uint32 = pack_uint64 = pack_uint
 
-    @raise_conversion_error
     def pack_uint64(self, x):
-        self._Packer__buf.write(struct.pack('>Q', x))
+        try:
+            self._Packer__buf.write(struct.pack('>Q', x))
+        except struct.error as e:
+            raise ConversionError(e.args[0])
 
     def pack_filename3(self, data):
         self.pack_string(data)
