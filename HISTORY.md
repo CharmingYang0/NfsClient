@@ -8,10 +8,10 @@ dev
 
 -   \[Short description of non-trivial change.\]
 
-0.4 (2019-04-09)
+0.1.5 (2019-06-04)
 ------------------
 
--   Update readme and setup settings
+-   Solve reference error on xdrlib
 
 0.1 (2019-04-08)
 ------------------
