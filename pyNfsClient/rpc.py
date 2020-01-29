@@ -125,8 +125,8 @@ class RPC(object):
 
         return data
 
-    def connect(self):
-        self.client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    def connect(self, sock_family = socket.AF_INET):
+        self.client = socket.socket(sock_family, socket.SOCK_STREAM)
         self.client.settimeout(self.timeout)
         # if we are running as root, use a source port between 500 and 1024 (NFS security options...)
         random_port = None
