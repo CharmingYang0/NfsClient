@@ -14,7 +14,9 @@ from .const import (NFS3_PROCEDURE_NULL, NFS3_PROCEDURE_GETATTR, NFS3_PROCEDURE_
                     NFS3_PROCEDURE_READDIR, NFS3_PROCEDURE_READDIRPLUS, NFS3_PROCEDURE_FSSTAT, NFS3_PROCEDURE_FSINFO,
                     NFS3_PROCEDURE_PATHCONF, NFS3_PROCEDURE_COMMIT, NFS_PROGRAM, NFS_V3, NF3BLK, NF3CHR, NF3FIFO,
                     NF3SOCK, time_how, DONT_CHANGE, SET_TO_CLIENT_TIME, SET_TO_SERVER_TIME)
+import sys
 
+logging.basicConfig(stream=sys.stdout, level=logging.DEBUG)
 logger = logging.getLogger(__package__)
 
 

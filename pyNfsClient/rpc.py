@@ -135,7 +135,7 @@ class RPC(object):
             i = 0
             while True:
                 try:
-                    random_port = randint(500, 1023)
+                    random_port = randint(1024, 65000)
                     i += 1
                     self.client.bind(('', random_port))
                     self.client_port = random_port
