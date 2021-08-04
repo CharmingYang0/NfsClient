@@ -24,6 +24,7 @@ class RPC(object):
     def request(self, program, program_version, procedure, data=None, message_type=0, version=2, auth=None, xid=None):
 
         rpc_xid = xid if xid else int(time.time())
+        logger.debug("Using XID %d" % rpc_xid)
         rpc_message_type = message_type     # 0=call
         rpc_rpc_version = version
         rpc_program = program
