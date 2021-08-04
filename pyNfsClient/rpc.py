@@ -21,9 +21,9 @@ class RPC(object):
         self.client = None
         self.client_port = None
 
-    def request(self, program, program_version, procedure, data=None, message_type=0, version=2, auth=None):
+    def request(self, program, program_version, procedure, data=None, message_type=0, version=2, auth=None, xid=None):
 
-        rpc_xid = int(time.time())
+        rpc_xid = xid if xid else int(time.time())
         rpc_message_type = message_type     # 0=call
         rpc_rpc_version = version
         rpc_program = program
