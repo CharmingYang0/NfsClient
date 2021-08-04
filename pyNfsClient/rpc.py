@@ -23,7 +23,7 @@ class RPC(object):
 
     def request(self, program, program_version, procedure, data=None, message_type=0, version=2, auth=None, xid=None):
 
-        rpc_xid = xid if xid else int(time.time())
+        rpc_xid = xid if xid else int(f"{randint(0,4294967295):010d}")
         logger.debug("Using XID %d" % rpc_xid)
         rpc_message_type = message_type     # 0=call
         rpc_rpc_version = version
