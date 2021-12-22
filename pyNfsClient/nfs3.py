@@ -50,7 +50,8 @@ class NFSv3(RPC):
         self.auth = auth
 
     def nfs_request(self, procedure, args, auth, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3, rpc_version=2):
-        return super(NFSv3, self).request(nfs_program, nfs_version, procedure, version=rpc_version, data=args, auth=auth, xid=xid)
+        return super(NFSv3, self).request(nfs_program, nfs_version, procedure, version=rpc_version, data=args,
+                                          auth=auth, xid=xid)
 
     def null(self):
         logger.debug("NFSv3 procedure %d: NULL on %s" % (NFS3_PROCEDURE_NULL, self.host))
@@ -78,13 +79,13 @@ class NFSv3(RPC):
         return attrs
 
     @fh_check
-    def getattr(self, file_handle, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+    def getattr(self, file_handle, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3, rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_fhandle3(file_handle)
 
         logger.debug("NFSv3 procedure %d: GETATTR on %s" % (NFS3_PROCEDURE_GETATTR, self.host))
         data = self.nfs_request(NFS3_PROCEDURE_GETATTR, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(data)
         return unpacker.unpack_getattr3res()
@@ -93,7 +94,8 @@ class NFSv3(RPC):
     def setattr(self, file_handle, mode=None, uid=None, gid=None, size=None,
                 atime_flag=SET_TO_SERVER_TIME, atime_s=None, atime_us=None,
                 mtime_flag=SET_TO_SERVER_TIME, mtime_s=None, mtime_us=None,
-                check=False, obj_ctime=None, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+                check=False, obj_ctime=None, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3,
+                rpc_version=2):
         packer = nfs_pro_v3Packer()
         attrs = self.get_sattr3(mode, uid, gid, size, atime_flag, atime_s, atime_us, mtime_flag, mtime_s, mtime_us)
         packer.pack_setattr3args(setattr3args(object=nfs_fh3(file_handle),
@@ -102,63 +104,65 @@ class NFSv3(RPC):
 
         logger.debug("NFSv3 procedure %d: GETATTR on %s" % (NFS3_PROCEDURE_SETATTR, self.host))
         data = self.nfs_request(NFS3_PROCEDURE_SETATTR, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(data)
         return unpacker.unpack_setattr3res()
 
     @fh_check
-    def lookup(self, dir_handle, file_folder, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+    def lookup(self, dir_handle, file_folder, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3,
+               rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_diropargs3(diropargs3(dir=nfs_fh3(dir_handle), name=str_to_bytes(file_folder)))
 
         logger.debug("NFSv3 procedure %d: LOOKUP on %s" % (NFS3_PROCEDURE_LOOKUP, self.host))
         data = self.nfs_request(NFS3_PROCEDURE_LOOKUP, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(data)
         return unpacker.unpack_lookup3res(data_format='json')
 
     @fh_check
-    def access(self, file_handle, access_option, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+    def access(self, file_handle, access_option, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3,
+               rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_access3args(access3args(object=nfs_fh3(file_handle), access=access_option))
 
         logger.debug("NFSv3 procedure %d: ACCESS on %s" % (NFS3_PROCEDURE_ACCESS, self.host))
         data = self.nfs_request(NFS3_PROCEDURE_ACCESS, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(data)
         return unpacker.unpack_access3res()
 
     @fh_check
-    def readlink(self, file_handle, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+    def readlink(self, file_handle, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3, rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_fhandle3(file_handle)
 
         logger.debug("NFSv3 procedure %d: READLINK on %s" % (NFS3_PROCEDURE_READLINK, self.host))
         data = self.nfs_request(NFS3_PROCEDURE_READLINK, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(data)
         return unpacker.unpack_readlink3res()
 
     @fh_check
     def read(self, file_handle, offset=0, chunk_count=1024 * 1024, auth=None, xid=None, nfs_program=NFS_PROGRAM,
-             nfs_version=NFS_V3):
+             nfs_version=NFS_V3, rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_read3args(read3args(file=nfs_fh3(file_handle), offset=offset, count=chunk_count))
 
         logger.debug("NFSv3 procedure %d: READ on %s" % (NFS3_PROCEDURE_READ, self.host))
         data = self.nfs_request(NFS3_PROCEDURE_READ, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(data)
         return unpacker.unpack_read3res()
 
     @fh_check
     def write(self, file_handle, offset, count, content, stable_how, auth=None, xid=None, nfs_program=NFS_PROGRAM,
-              nfs_version=NFS_V3):
+              nfs_version=NFS_V3, rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_write3args(write3args(file=nfs_fh3(file_handle),
                                           offset=offset,
@@ -168,7 +172,7 @@ class NFSv3(RPC):
 
         logger.debug("NFSv3 procedure %d: WRITE on %s" % (NFS3_PROCEDURE_WRITE, self.host))
         res = self.nfs_request(NFS3_PROCEDURE_WRITE, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(res)
         return unpacker.unpack_write3res()
@@ -177,7 +181,7 @@ class NFSv3(RPC):
     def create(self, dir_handle, file_name, create_mode, mode=None, uid=None, gid=None, size=None,
                atime_flag=SET_TO_SERVER_TIME, atime_s=None, atime_us=None,
                mtime_flag=SET_TO_SERVER_TIME, mtime_s=None, mtime_us=None,
-               verf='0', auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+               verf='0', auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3, rpc_version=2):
         packer = nfs_pro_v3Packer()
         attrs = self.get_sattr3(mode, uid, gid, size, atime_flag, atime_s, atime_us, mtime_flag, mtime_s, mtime_us)
         packer.pack_create3args(create3args(where=diropargs3(dir=nfs_fh3(dir_handle), name=str_to_bytes(file_name)),
@@ -185,7 +189,7 @@ class NFSv3(RPC):
 
         logger.debug("NFSv3 procedure %d: CREATE on %s" % (NFS3_PROCEDURE_CREATE, self.host))
         data = self.nfs_request(NFS3_PROCEDURE_CREATE, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(data)
         return unpacker.unpack_create3res()
@@ -194,7 +198,7 @@ class NFSv3(RPC):
     def mkdir(self, dir_handle, dir_name, mode=None, uid=None, gid=None,
               atime_flag=SET_TO_SERVER_TIME, atime_s=None, atime_us=None,
               mtime_flag=SET_TO_SERVER_TIME, mtime_s=None, mtime_us=None,
-              auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+              auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3, rpc_version=2):
         packer = nfs_pro_v3Packer()
         attrs = self.get_sattr3(mode, uid, gid, None, atime_flag, atime_s, atime_us, mtime_flag, mtime_s, mtime_us)
         packer.pack_mkdir3args(mkdir3args(where=diropargs3(dir=nfs_fh3(dir_handle), name=str_to_bytes(dir_name)),
@@ -202,14 +206,14 @@ class NFSv3(RPC):
 
         logger.debug("NFSv3 procedure %d: MKDIR on %s" % (NFS3_PROCEDURE_MKDIR, self.host))
         res = self.nfs_request(NFS3_PROCEDURE_MKDIR, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(res)
         return unpacker.unpack_mkdir3res()
 
     @fh_check
     def symlink(self, dir_handle, link_name, link_to_path, auth=None, xid=None, nfs_program=NFS_PROGRAM,
-                nfs_version=NFS_V3):
+                nfs_version=NFS_V3, rpc_version=2):
         packer = nfs_pro_v3Packer()
         attrs = self.get_sattr3(mode=None, size=None, uid=None, gid=None, atime_flag=DONT_CHANGE,
                                 mtime_flag=DONT_CHANGE)
@@ -220,7 +224,7 @@ class NFSv3(RPC):
 
         logger.debug("NFSv3 procedure %d: SYMLINK on %s" % (NFS3_PROCEDURE_SYMLINK, self.host))
         res = self.nfs_request(NFS3_PROCEDURE_SYMLINK, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(res)
         return unpacker.unpack_symlink3res()
@@ -230,7 +234,8 @@ class NFSv3(RPC):
               mode=None, uid=None, gid=None,
               atime_flag=SET_TO_SERVER_TIME, atime_s=None, atime_us=None,
               mtime_flag=SET_TO_SERVER_TIME, mtime_s=None, mtime_us=None,
-              spec_major=0, spec_minor=0, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+              spec_major=0, spec_minor=0, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3,
+              rpc_version=2):
         packer = nfs_pro_v3Packer()
         attrs = self.get_sattr3(mode, uid, gid, None, atime_flag, atime_s, atime_us, mtime_flag, mtime_s, mtime_us)
         if ftype in (NF3CHR, NF3BLK):
@@ -246,38 +251,40 @@ class NFSv3(RPC):
 
         logger.debug("NFSv3 procedure %d: MKNOD on %s" % (NFS3_PROCEDURE_MKNOD, self.host))
         res = self.nfs_request(NFS3_PROCEDURE_MKNOD, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(res)
         return unpacker.unpack_mknod3res()
 
     @fh_check
-    def remove(self, dir_handle, file_name, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+    def remove(self, dir_handle, file_name, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3,
+               rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_diropargs3(diropargs3(dir=nfs_fh3(dir_handle), name=str_to_bytes(file_name)))
 
         logger.debug("NFSv3 procedure %d: REMOVE on %s" % (NFS3_PROCEDURE_REMOVE, self.host))
         res = self.nfs_request(NFS3_PROCEDURE_REMOVE, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(res)
         return unpacker.unpack_remove3res()
 
     @fh_check
-    def rmdir(self, dir_handle, dir_name, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+    def rmdir(self, dir_handle, dir_name, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3,
+              rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_diropargs3(diropargs3(dir=nfs_fh3(dir_handle), name=str_to_bytes(dir_name)))
 
         logger.debug("NFSv3 procedure %d: RMDIR on %s" % (NFS3_PROCEDURE_RMDIR, self.host))
         res = self.nfs_request(NFS3_PROCEDURE_RMDIR, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(res)
         return unpacker.unpack_rmdir3res()
 
     @fh_check
     def rename(self, dir_handle_from, from_name, dir_handle_to, to_name, auth=None, xid=None, nfs_program=NFS_PROGRAM,
-               nfs_version=NFS_V3):
+               nfs_version=NFS_V3, rpc_version=2):
         if not isinstance(dir_handle_to, bytes):
             raise TypeError("file handle should be bytes")
 
@@ -289,28 +296,28 @@ class NFSv3(RPC):
 
         logger.debug("NFSv3 procedure %d: RENAME on %s" % (NFS3_PROCEDURE_RENAME, self.host))
         res = self.nfs_request(NFS3_PROCEDURE_RENAME, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(res)
         return unpacker.unpack_rename3res()
 
     @fh_check
     def link(self, file_handle, link_to_dir_handle, link_name, auth=None, xid=None, nfs_program=NFS_PROGRAM,
-             nfs_version=NFS_V3):
+             nfs_version=NFS_V3, rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_link3args(link3args(file=nfs_fh3(file_handle),
                                         link=diropargs3(dir=nfs_fh3(link_to_dir_handle), name=str_to_bytes(link_name))))
 
         logger.debug("NFSv3 procedure %d: LINK on %s" % (NFS3_PROCEDURE_LINK, self.host))
         res = self.nfs_request(NFS3_PROCEDURE_LINK, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(res)
         return unpacker.unpack_link3res()
 
     @fh_check
     def readdir(self, dir_handle, cookie=0, cookie_verf='0', count=4096, auth=None, xid=None, nfs_program=NFS_PROGRAM,
-                nfs_version=NFS_V3):
+                nfs_version=NFS_V3, rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_readdir3args(readdir3args(dir=nfs_fh3(dir_handle),
                                               cookie=cookie,
@@ -319,14 +326,14 @@ class NFSv3(RPC):
 
         logger.debug("NFSv3 procedure %d: READDIR on %s" % (NFS3_PROCEDURE_READDIR, self.host))
         res = self.nfs_request(NFS3_PROCEDURE_READDIR, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(res)
         return unpacker.unpack_readdir3res()
 
     @fh_check
     def readdirplus(self, dir_handle, cookie=0, cookie_verf='0', dircount=4096, maxcount=32768, auth=None, xid=None,
-                    nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+                    nfs_program=NFS_PROGRAM, nfs_version=NFS_V3, rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_readdirplus3args(readdirplus3args(dir=nfs_fh3(dir_handle),
                                                       cookie=cookie,
@@ -336,55 +343,56 @@ class NFSv3(RPC):
 
         logger.debug("NFSv3 procedure %d: READDIRPLUS on %s" % (NFS3_PROCEDURE_READDIRPLUS, self.host))
         res = self.nfs_request(NFS3_PROCEDURE_READDIRPLUS, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(res)
         return unpacker.unpack_readdirplus3res()
 
     @fh_check
-    def fsstat(self, file_handle, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+    def fsstat(self, file_handle, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3, rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_fhandle3(file_handle)
 
         logger.debug("NFSv3 procedure %d: FSSTAT on %s" % (NFS3_PROCEDURE_FSSTAT, self.host))
         data = self.nfs_request(NFS3_PROCEDURE_FSSTAT, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(data)
         return unpacker.unpack_fsstat3res()
 
     @fh_check
-    def fsinfo(self, file_handle, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+    def fsinfo(self, file_handle, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3, rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_fhandle3(file_handle)
 
         logger.debug("NFSv3 procedure %d: FSINFO on %s" % (NFS3_PROCEDURE_FSINFO, self.host))
         data = self.nfs_request(NFS3_PROCEDURE_FSINFO, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(data)
         return unpacker.unpack_fsinfo3res()
 
     @fh_check
-    def pathconf(self, file_handle, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+    def pathconf(self, file_handle, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3, rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_fhandle3(file_handle)
 
         logger.debug("NFSv3 procedure %d: PATHCONF on %s" % (NFS3_PROCEDURE_PATHCONF, self.host))
         data = self.nfs_request(NFS3_PROCEDURE_PATHCONF, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                                nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(data)
         return unpacker.unpack_pathconf3res()
 
     @fh_check
-    def commit(self, file_handle, count=0, offset=0, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3):
+    def commit(self, file_handle, count=0, offset=0, auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3,
+               rpc_version=2):
         packer = nfs_pro_v3Packer()
         packer.pack_commit3args(commit3args(file=nfs_fh3(file_handle), offset=offset, count=count))
 
         logger.debug("NFSv3 procedure %d: COMMIT on %s" % (NFS3_PROCEDURE_COMMIT, self.host))
         res = self.nfs_request(NFS3_PROCEDURE_COMMIT, packer.get_buffer(), auth if auth else self.auth, xid=xid,
-                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=2)
+                               nfs_program=nfs_program, nfs_version=nfs_version, rpc_version=rpc_version)
 
         unpacker = nfs_pro_v3Unpacker(res)
         return unpacker.unpack_commit3res()
