@@ -16,10 +16,11 @@ class RPCProtocolError(Exception):
 class RPC(object):
     connections = list()
 
-    def __init__(self, host, port, timeout):
+    def __init__(self, host, port, timeout, retries=5):
         self.host = host
         self.port = port
         self.timeout = timeout
+        self.retries = retries
         self.client = None
         self.client_port = None
 
@@ -171,7 +172,7 @@ class RPC(object):
         rpc_response_size = b""
 
         try:
-            while len(rpc_response_size) != 4:
+            for _ in range(self.retries):
                 try:
                     rpc_response_size = self.client.recv(4)
                 except socket.error as e:
@@ -181,9 +182,9 @@ class RPC(object):
                         logger.debug("No data available")
                         continue
                     else:
-                        # a "real" error occurred
-                        logger.debug("Error occurred. breaking")
-                        break
+                        raise e
+                if len(rpc_response_size) == 4:
+                    break
 
             if len(rpc_response_size) != 4:
                 raise RPCProtocolError("incorrect recv response size: %d" % len(rpc_response_size))
