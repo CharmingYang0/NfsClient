@@ -3,6 +3,7 @@ import logging
 from logging import NullHandler
 from .__info__ import (__version__, __author__, __author_email__, __description__)
 from .rpc import RPC, RPCProtocolError
+from .pack import XDRError
 from .portmap import Portmap
 from .mount import Mount
 from .nfs3 import NFSv3
