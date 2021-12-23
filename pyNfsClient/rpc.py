@@ -5,6 +5,7 @@ import time
 from random import randint
 
 logger = logging.getLogger(__package__)
+socket.setdefaulttimeout(10)
 
 
 class RPCProtocolError(Exception):
