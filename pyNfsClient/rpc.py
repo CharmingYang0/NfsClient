@@ -2,6 +2,7 @@ import logging
 import struct
 import socket
 import time
+import errno
 from random import randint
 
 logger = logging.getLogger(__package__)
@@ -171,7 +172,18 @@ class RPC(object):
 
         try:
             while len(rpc_response_size) != 4:
-                rpc_response_size = self.client.recv(4)
+                try:
+                    rpc_response_size = self.client.recv(4)
+                except socket.error as e:
+                    err = e.args[0]
+                    if err == errno.EAGAIN or err == errno.EWOULDBLOCK:
+                        time.sleep(1)
+                        logger.debug("No data available")
+                        continue
+                    else:
+                        # a "real" error occurred
+                        logger.debug("Error occurred. breaking")
+                        break
 
             if len(rpc_response_size) != 4:
                 raise RPCProtocolError("incorrect recv response size: %d" % len(rpc_response_size))
