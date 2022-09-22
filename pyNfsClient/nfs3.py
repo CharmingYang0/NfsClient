@@ -181,10 +181,12 @@ class NFSv3(RPC):
     def create(self, dir_handle, file_name, create_mode, mode=None, uid=None, gid=None, size=None,
                atime_flag=SET_TO_SERVER_TIME, atime_s=None, atime_us=None,
                mtime_flag=SET_TO_SERVER_TIME, mtime_s=None, mtime_us=None,
-               verf='0', auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3, rpc_version=2):
+               verf='0', auth=None, xid=None, nfs_program=NFS_PROGRAM, nfs_version=NFS_V3, rpc_version=2,
+               filename_is_string=True):
+        filename = str_to_bytes(file_name) if filename_is_string else file_name
         packer = nfs_pro_v3Packer()
         attrs = self.get_sattr3(mode, uid, gid, size, atime_flag, atime_s, atime_us, mtime_flag, mtime_s, mtime_us)
-        packer.pack_create3args(create3args(where=diropargs3(dir=nfs_fh3(dir_handle), name=str_to_bytes(file_name)),
+        packer.pack_create3args(create3args(where=diropargs3(dir=nfs_fh3(dir_handle), name=filename),
                                             how=createhow3(mode=create_mode, obj_attributes=attrs, verf=verf)))
 
         logger.debug("NFSv3 procedure %d: CREATE on %s" % (NFS3_PROCEDURE_CREATE, self.host))
